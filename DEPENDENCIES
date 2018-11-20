@@ -1,0 +1,30 @@
+To get an URL:
+
+sudo apt-get install libcurl4-openssl-dev
+
+========================================================
+
+To work with json:
+
+sudo apt install nlohmann-json-dev
+
+========================================================
+
+To work with xlsx:
+
+git clone https://github.com/tfussell/xlnt.git
+cd xlnt
+cmake .
+make -j 2
+sudo make install
+
+If library does not link:
+
+add:
+/usr/local/lib
+to:
+/etc/ld.so.conf
+then execute:
+sudo ldconfig
+
+========================================================
