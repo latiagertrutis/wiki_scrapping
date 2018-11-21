@@ -6,7 +6,7 @@
 #    By: Mateo <teorodrip@protonmail.com>                                      #
 #                                                                              #
 #    Created: 2018/11/19 16:54:49 by Mateo                                     #
-#    Updated: 2018/11/20 14:36:05 by Mateo                                     #
+#    Updated: 2018/11/21 20:53:25 by Mateo                                     #
 #                                                                              #
 #******************************************************************************#
 
@@ -16,12 +16,13 @@ SHELL = /bin/bash
 
 NAME = scrap
 
-C_FLAGS = -Wall -Werror -Wextra -lcurl -lxlnt
+C_FLAGS = -Wall -Werror -Wextra -lcurl -lxlnt -lmyhtml -lboost_regex
 
 CC = g++
 
 FUNCS = main.cpp \
-		get_search.cpp
+		get_search.cpp \
+		get_page.cpp
 
 SRCS_DIR = srcs/
 
@@ -45,7 +46,7 @@ $(NAME): $(OBJ) $(INC)
 $(OBJ_DIR)%.o: $(SRCS_DIR)%.cpp $(INC)
 	@mkdir -p $(OBJ_DIR)
 	@echo -n "Compiling [$(shell echo ${I})/${N_SRCS}] => $(@F)"
-	@if $(CC) -c -I $(INC_DIR) $< -o $@ $(C_FLAGS) ; then \
+	@if $(CC) -c -I/usr/include/libxml2 -I $(INC_DIR) $< -o $@ $(C_FLAGS) ; then \
 		 echo	" ===>[OK]"; \
 	 fi
 	@$(eval I=$(shell echo $$(($(I)+1))))

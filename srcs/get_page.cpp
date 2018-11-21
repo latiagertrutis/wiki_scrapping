@@ -1,15 +1,14 @@
 // ************************************************************************** //
 //                                                                            //
 //                                                                            //
-//   get_search.cpp                                                           //
+//   get_page.cpp                                                             //
 //                                                                            //
 //   By: Mateo <teorodrip@protonmail.com>                                     //
 //                                                                            //
-//   Created: 2018/11/20 10:36:56 by Mateo                                    //
-//   Updated: 2018/11/20 16:35:29 by Mateo                                    //
+//   Created: 2018/11/21 12:24:48 by Mateo                                    //
+//   Updated: 2018/11/21 12:29:25 by Mateo                                    //
 //                                                                            //
 // ************************************************************************** //
-
 #include <iostream>
 #include <string>
 #include <curl/curl.h>
@@ -23,11 +22,10 @@ static size_t write_callback(char *ptr, size_t size, size_t nmemb, void *userdat
   return (size * nmemb);
 }
 
-void get_search(const std::string url, json *j_search)
+void get_page(const std::string url, std::string *page)
 {
   CURL			*curl;
   CURLcode		res;
-  std::string	info;
 
   if (!(curl = curl_easy_init()))
 	{
@@ -36,7 +34,7 @@ void get_search(const std::string url, json *j_search)
 	}
   curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
   curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_callback);
-  curl_easy_setopt(curl, CURLOPT_WRITEDATA, &info);
+  curl_easy_setopt(curl, CURLOPT_WRITEDATA, page);
   res = curl_easy_perform(curl);
   curl_easy_cleanup(curl);
   if (res)
@@ -44,5 +42,4 @@ void get_search(const std::string url, json *j_search)
 	  std::cerr << "Error: performing curl\n";
 	  exit(EXIT_FAILURE);
 	}
-  *j_search = json::parse(info);
 }
