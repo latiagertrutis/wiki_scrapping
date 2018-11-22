@@ -6,7 +6,7 @@
 //   By: Mateo <teorodrip@protonmail.com>                                     //
 //                                                                            //
 //   Created: 2018/11/20 10:28:41 by Mateo                                    //
-//   Updated: 2018/11/22 16:13:14 by Mateo                                    //
+//   Updated: 2018/11/22 22:14:28 by Mateo                                    //
 //                                                                            //
 // ************************************************************************** //
 
@@ -24,6 +24,7 @@ static void init_options(const int argc, const char **argv, data_t *data)
 	{
 	  desc.add_options()
 		("help,h", "Help screen")
+		("raw,r", "Evalue raw HTML, overrides -c flag")
 		("file,f",
 		 boost::program_options::value<std::string>()->default_value("resources/keywords.xlsx"),
 		 "File containing Keywords (default resources/keywords.xlsx)")
@@ -36,39 +37,58 @@ static void init_options(const int argc, const char **argv, data_t *data)
 	  boost::program_options::store(boost::program_options::parse_command_line(argc, argv, desc), vm);
 	  boost::program_options::notify(vm);
 	  if (vm.count("help"))
-		std::cout << desc << "\n";
+		{
+		  std::cout << desc << "\n";
+		  exit(EXIT_SUCCESS);
+		}
 	  else
 		{
 		  if (vm.count("file"))
 			data->keywords_path = vm["file"].as<std::string>();
 		  if (vm.count("limit_search"))
 			data->search_limit = vm["limit_search"].as<unsigned int>();
-		  if (vm.count("container"))
+		  if (vm.count("raw"))
+			data->flags |= 0x1;
+		  else if (vm.count("container"))
 			data->container = vm["container"].as<std::string>();
 		}
 	}
   catch (const boost::program_options::error &error)
 	{
 	  std::cerr << error.what() << "\n";
+	  exit(EXIT_FAILURE);
 	}
+}
+
+static void init_keywords(const std::string path, xlnt::workbook *wb, xlnt::worksheet *ws)
+{
+  try
+	{
+	  wb->load(path);
+	}
+  catch (xlnt::exception const &error)
+	{
+	  std::cerr << error.what() << "\n";
+	  exit(EXIT_FAILURE);
+	}
+  *ws = wb->active_sheet();
 }
 
 int main(int argc, char **argv)
 {
   data_t data;
+  xlnt::workbook	wb;
+  xlnt::worksheet	ws;
 
   init_options((const int)argc, (const char **)argv, &data);
-  std::cout << data.keywords_path << "\n" << data.search_limit << "\n" << data.container;
+  init_keywords(data.keywords_path, &wb, &ws);
+  evaluate_tree(&data, &ws);
   return (0);
 
 
-  xlnt::workbook wb;
-  xlnt::worksheet	ws;
   json j_search;
   std::string url;
   std::string page;
-  boost::regex exp("[,\n\\.][^,\\.\n]*[[:digit:]][^,\n\\.]*[,\n\\.]");
-  boost::smatch match;
 
 
   myhtml_t* myhtml = myhtml_create();
@@ -76,11 +96,11 @@ int main(int argc, char **argv)
   myhtml_tree_t* tree = myhtml_tree_create();
   myhtml_tree_init(tree, myhtml);
 
-  wb.load(FILE_PATH);
-  ws = wb.active_sheet();
   //Search for all keywords, may be is possible to do it in just 1 request?
   for (auto row : ws.rows())
 	{
+	  return 0;
+
 	  url = BASE_URL + row[0].to_string();
 	  get_search(url, &j_search);
 	  get_page(j_search[3][0], &page);

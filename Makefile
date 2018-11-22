@@ -6,7 +6,7 @@
 #    By: Mateo <teorodrip@protonmail.com>                                      #
 #                                                                              #
 #    Created: 2018/11/19 16:54:49 by Mateo                                     #
-#    Updated: 2018/11/22 16:08:07 by Mateo                                     #
+#    Updated: 2018/11/22 22:14:15 by Mateo                                     #
 #                                                                              #
 #******************************************************************************#
 
@@ -22,7 +22,9 @@ CC = g++
 
 FUNCS = main2.cpp \
 		get_search.cpp \
-		get_page.cpp
+		get_page.cpp \
+		evaluate_raw.cpp \
+		evaluate_tree.cpp
 
 SRCS_DIR = srcs/
 
