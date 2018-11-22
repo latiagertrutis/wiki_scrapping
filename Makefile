@@ -6,7 +6,7 @@
 #    By: Mateo <teorodrip@protonmail.com>                                      #
 #                                                                              #
 #    Created: 2018/11/19 16:54:49 by Mateo                                     #
-#    Updated: 2018/11/21 20:53:25 by Mateo                                     #
+#    Updated: 2018/11/22 16:08:07 by Mateo                                     #
 #                                                                              #
 #******************************************************************************#
 
@@ -16,11 +16,11 @@ SHELL = /bin/bash
 
 NAME = scrap
 
-C_FLAGS = -Wall -Werror -Wextra -lcurl -lxlnt -lmyhtml -lboost_regex
+C_FLAGS = -Wall -Werror -Wextra -lcurl -lxlnt -lmyhtml -lboost_regex -lboost_program_options
 
 CC = g++
 
-FUNCS = main.cpp \
+FUNCS = main2.cpp \
 		get_search.cpp \
 		get_page.cpp
 
