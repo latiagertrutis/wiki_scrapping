@@ -6,7 +6,7 @@
 //   By: Mateo <teorodrip@protonmail.com>                                     //
 //                                                                            //
 //   Created: 2018/11/20 10:28:41 by Mateo                                    //
-//   Updated: 2018/11/22 22:14:28 by Mateo                                    //
+//   Updated: 2018/11/23 14:38:47 by Mateo                                    //
 //                                                                            //
 // ************************************************************************** //
 
@@ -28,6 +28,9 @@ static void init_options(const int argc, const char **argv, data_t *data)
 		("file,f",
 		 boost::program_options::value<std::string>()->default_value("resources/keywords.xlsx"),
 		 "File containing Keywords (default resources/keywords.xlsx)")
+		("end_char,e",
+		 boost::program_options::value<std::string>()->default_value(".?!"),
+		 "Chain of characters to mark end of sentnce, numeric, alphabetic and space characters will not be considered (default \".?!\")")
 		("limit_search,l",
 		 boost::program_options::value<unsigned int>()->default_value(10),
 		 "Search limit on Wikipedia (default 10)")
@@ -49,6 +52,8 @@ static void init_options(const int argc, const char **argv, data_t *data)
 			data->search_limit = vm["limit_search"].as<unsigned int>();
 		  if (vm.count("raw"))
 			data->flags |= 0x1;
+		  if (vm.count("end_char"))
+			data->end_char = vm["end_char"].as<std::string>();
 		  else if (vm.count("container"))
 			data->container = vm["container"].as<std::string>();
 		}

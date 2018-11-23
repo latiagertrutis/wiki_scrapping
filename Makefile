@@ -6,7 +6,7 @@
 #    By: Mateo <teorodrip@protonmail.com>                                      #
 #                                                                              #
 #    Created: 2018/11/19 16:54:49 by Mateo                                     #
-#    Updated: 2018/11/22 22:14:15 by Mateo                                     #
+#    Updated: 2018/11/23 15:01:29 by Mateo                                     #
 #                                                                              #
 #******************************************************************************#
 
@@ -24,7 +24,9 @@ FUNCS = main2.cpp \
 		get_search.cpp \
 		get_page.cpp \
 		evaluate_raw.cpp \
-		evaluate_tree.cpp
+		parse_root_tree.cpp \
+		evaluate_tree.cpp \
+		extract_sentence.cpp
 
 SRCS_DIR = srcs/
 
