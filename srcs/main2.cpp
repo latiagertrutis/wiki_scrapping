@@ -6,7 +6,7 @@
 //   By: Mateo <teorodrip@protonmail.com>                                     //
 //                                                                            //
 //   Created: 2018/11/20 10:28:41 by Mateo                                    //
-//   Updated: 2018/11/23 14:38:47 by Mateo                                    //
+//   Updated: 2018/11/24 21:16:47 by Mateo                                    //
 //                                                                            //
 // ************************************************************************** //
 
@@ -14,6 +14,7 @@
 #include <boost/program_options.hpp>
 #include <boost/regex.hpp>
 #include <myhtml/api.h>
+#include <iostream>
 
 static void init_options(const int argc, const char **argv, data_t *data)
 {
@@ -31,9 +32,15 @@ static void init_options(const int argc, const char **argv, data_t *data)
 		("end_char,e",
 		 boost::program_options::value<std::string>()->default_value(".?!"),
 		 "Chain of characters to mark end of sentnce, numeric, alphabetic and space characters will not be considered (default \".?!\")")
+		("output,o",
+		 boost::program_options::value<std::string>()->default_value("output.json"),
+		 "output of the program (default \"output.json\")")
 		("limit_search,l",
 		 boost::program_options::value<unsigned int>()->default_value(10),
 		 "Search limit on Wikipedia (default 10)")
+		("buffer,b",
+		 boost::program_options::value<size_t>()->default_value(2048),
+		 "Buffer to store sentences in memory before write them on file (default 2048)")
 		("container,c",
 		 boost::program_options::value<std::string>()->default_value("p"),
 		 "Container to start searching (default p)");
@@ -48,14 +55,19 @@ static void init_options(const int argc, const char **argv, data_t *data)
 		{
 		  if (vm.count("file"))
 			data->keywords_path = vm["file"].as<std::string>();
+		  if (vm.count("output"))
+			data->output_path = vm["output"].as<std::string>();
 		  if (vm.count("limit_search"))
 			data->search_limit = vm["limit_search"].as<unsigned int>();
+		  if (vm.count("buffer"))
+			data->buff = vm["buffer"].as<size_t>();
 		  if (vm.count("raw"))
 			data->flags |= 0x1;
 		  if (vm.count("end_char"))
 			data->end_char = vm["end_char"].as<std::string>();
 		  else if (vm.count("container"))
 			data->container = vm["container"].as<std::string>();
+		  data->output = "{";
 		}
 	}
   catch (const boost::program_options::error &error)
@@ -79,6 +91,16 @@ static void init_keywords(const std::string path, xlnt::workbook *wb, xlnt::work
   *ws = wb->active_sheet();
 }
 
+static void init_output_file(data_t *data)
+{
+  data->output_file.open(data->output_path, std::ofstream::out |std::ofstream::app);
+	  if (!data->output_file.is_open())
+		{
+		  std::cerr << "Error: creating file\n";
+		  exit (EXIT_FAILURE);
+		}
+}
+
 int main(int argc, char **argv)
 {
   data_t data;
@@ -86,8 +108,11 @@ int main(int argc, char **argv)
   xlnt::worksheet	ws;
 
   init_options((const int)argc, (const char **)argv, &data);
+  init_output_file(&data);
   init_keywords(data.keywords_path, &wb, &ws);
   evaluate_tree(&data, &ws);
+  std::cout <<"cosa: "<< data.output;
+  data.output_file.close();
   return (0);
 
 

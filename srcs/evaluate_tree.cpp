@@ -6,20 +6,21 @@
 //   By: Mateo <teorodrip@protonmail.com>                                     //
 //                                                                            //
 //   Created: 2018/11/22 21:46:03 by Mateo                                    //
-//   Updated: 2018/11/23 15:03:32 by Mateo                                    //
+//   Updated: 2018/11/24 20:21:24 by Mateo                                    //
 //                                                                            //
 // ************************************************************************** //
 
 #include "../includes/wiki_scrapping.hpp"
 
 
-void evaluate_tree(const data_t *data, const xlnt::worksheet *ws)
+void evaluate_tree(data_t *data, const xlnt::worksheet *ws)
 {
-  (void)data;
   std::string	base_url;
   std::string	url;
   std::string	page_url;
+  std::string	page_description;
   std::string	page;
+  std::string	keyword;
   json			j_search;
   unsigned int  i;
   size_t len;
@@ -31,19 +32,25 @@ void evaluate_tree(const data_t *data, const xlnt::worksheet *ws)
   base_url = BASE_URL + std::to_string(data->search_limit) + "&search=";
   for (auto row : ws->rows())
 	{
-	  url = base_url + row[0].to_string();
+	  keyword = row[0].to_string();
+	  url = base_url + keyword;
 	  get_search(url, &j_search);
-	  if (j_search.size() < 4 || (len = j_search[3].size()) <= 0)
-		continue ;
-	  for (i = 0; i < len; i++)
+	  update_output("\"" + keyword + "\":[", data);
+	  if (j_search.size() >= 4 && (len = j_search[3].size()) > 0)
 		{
-		  page_url = j_search[3][i];
-		  get_page(page_url, &page);
-		  parse_root_tree(tree, page.c_str(), page.length());
-		  exit(1);
-		  myhtml_tree_clean(tree);
+		  for (i = 0; i < len; i++)
+			{
+			  page_url = j_search[3][i];
+			  page_description = j_search[2][i];
+			  update_output("[\"" + page_url + "\",\"" + page_description + "\",[", data);
+			  get_page(page_url, &page);
+			  parse_root_tree(tree, page.c_str(), page.length(), data);
+			  update_output("],", data);
+			  exit(1);
+			  myhtml_tree_clean(tree);
+			}
 		}
-	  std::cout <<"\n";
+	  update_output("],", data);
 	}
   myhtml_tree_destroy(tree);
   myhtml_destroy(myhtml);

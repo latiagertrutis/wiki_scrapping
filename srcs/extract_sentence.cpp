@@ -6,13 +6,13 @@
 //   By: Mateo <teorodrip@protonmail.com>                                     //
 //                                                                            //
 //   Created: 2018/11/23 13:23:05 by Mateo                                    //
-//   Updated: 2018/11/23 14:28:29 by Mateo                                    //
+//   Updated: 2018/11/24 21:00:33 by Mateo                                    //
 //                                                                            //
 // ************************************************************************** //
 
 #include "../includes/wiki_scrapping.hpp"
 
-void extract_sentence(sentence_t *sentence, const std::string end_sentence)
+void extract_sentence(sentence_t *sentence, const std::string end_sentence, data_t *data)
 {
   size_t doc_len;
   size_t end_len;
@@ -37,7 +37,10 @@ void extract_sentence(sentence_t *sentence, const std::string end_sentence)
 		  if (current == end_sentence.at(j))
 			{
 			  if (sentence->cont_digit)
-				std::cout << "Extraxted: " << sentence->doc.substr(0, i + 1) << "\n";
+				{
+				update_output("\"" + sentence->doc.substr(0, i + 1) + "\",", data);
+				std:: cout << sentence->doc.substr(0, i + 1) <<"__FIN__\n";
+				}
 			  doc_len = doc_len - (i + 1);
 			  sentence->doc = sentence->doc.substr(i + 1, doc_len);
 			  i = 0;
