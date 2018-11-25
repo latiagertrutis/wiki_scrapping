@@ -6,7 +6,7 @@
 #    By: Mateo <teorodrip@protonmail.com>                                      #
 #                                                                              #
 #    Created: 2018/11/19 16:54:49 by Mateo                                     #
-#    Updated: 2018/11/25 14:13:46 by Mateo                                     #
+#    Updated: 2018/11/25 18:54:41 by Mateo                                     #
 #                                                                              #
 #******************************************************************************#
 
@@ -24,7 +24,6 @@ FUNCS = main2.cpp \
 		get_search.cpp \
 		get_page.cpp \
 		evaluate_raw.cpp \
-		parse_root_tree.cpp \
 		evaluate_tree.cpp \
 		extract_sentence.cpp \
 		update_output.cpp \
