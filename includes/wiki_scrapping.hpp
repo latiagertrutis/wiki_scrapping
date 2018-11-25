@@ -6,7 +6,7 @@
 /*   By: Mateo <teorodrip@protonmail.com>                                     */
 /*                                                                            */
 /*   Created: 2018/11/20 10:23:16 by Mateo                                    */
-//   Updated: 2018/11/24 20:23:00 by Mateo                                    //
+//   Updated: 2018/11/25 14:13:33 by Mateo                                    //
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ void	evaluate_raw(const data_t *data, const xlnt::worksheet *ws);
 void	evaluate_tree(data_t *data, const xlnt::worksheet *ws);
 void	extract_sentence(sentence_t *sentence, const std::string end_sentence, data_t *data);
 void	parse_root_tree(myhtml_tree_t *tree, const char *page, const size_t page_len, data_t *data);
+void	parse_container_tree(myhtml_tree_t *tree, const char *page, const size_t page_len, data_t *data);
 void    update_output(const std::string str, data_t *data);
 
 #endif

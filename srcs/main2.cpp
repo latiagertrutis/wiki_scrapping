@@ -6,7 +6,7 @@
 //   By: Mateo <teorodrip@protonmail.com>                                     //
 //                                                                            //
 //   Created: 2018/11/20 10:28:41 by Mateo                                    //
-//   Updated: 2018/11/24 21:16:47 by Mateo                                    //
+//   Updated: 2018/11/25 14:17:09 by Mateo                                    //
 //                                                                            //
 // ************************************************************************** //
 
@@ -61,10 +61,10 @@ static void init_options(const int argc, const char **argv, data_t *data)
 			data->search_limit = vm["limit_search"].as<unsigned int>();
 		  if (vm.count("buffer"))
 			data->buff = vm["buffer"].as<size_t>();
-		  if (vm.count("raw"))
-			data->flags |= 0x1;
 		  if (vm.count("end_char"))
 			data->end_char = vm["end_char"].as<std::string>();
+		  if (vm.count("raw"))
+			data->flags |= 0x1;
 		  else if (vm.count("container"))
 			data->container = vm["container"].as<std::string>();
 		  data->output = "{";

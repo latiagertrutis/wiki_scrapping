@@ -6,7 +6,7 @@
 //   By: Mateo <teorodrip@protonmail.com>                                     //
 //                                                                            //
 //   Created: 2018/11/22 21:46:03 by Mateo                                    //
-//   Updated: 2018/11/24 20:21:24 by Mateo                                    //
+//   Updated: 2018/11/25 14:14:36 by Mateo                                    //
 //                                                                            //
 // ************************************************************************** //
 
@@ -44,7 +44,7 @@ void evaluate_tree(data_t *data, const xlnt::worksheet *ws)
 			  page_description = j_search[2][i];
 			  update_output("[\"" + page_url + "\",\"" + page_description + "\",[", data);
 			  get_page(page_url, &page);
-			  parse_root_tree(tree, page.c_str(), page.length(), data);
+			  parse_container_tree(tree, page.c_str(), page.length(), data);
 			  update_output("],", data);
 			  exit(1);
 			  myhtml_tree_clean(tree);
