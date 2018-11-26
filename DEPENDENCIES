@@ -34,3 +34,13 @@ To use boost:
 sudo apt-get install libboost-all-dev
 
 ========================================================
+
+For myhtml (HTML parser):
+
+clone the repository:
+
+https://github.com/lexborisov/myhtml.git
+
+follow the INSTALL.md:
+
+https://github.com/lexborisov/myhtml/blob/master/INSTALL.md
