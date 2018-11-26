@@ -6,7 +6,7 @@
 //   By: Mateo <teorodrip@protonmail.com>                                     //
 //                                                                            //
 //   Created: 2018/11/20 10:28:41 by Mateo                                    //
-//   Updated: 2018/11/25 19:04:38 by Mateo                                    //
+//   Updated: 2018/11/26 01:10:15 by Mateo                                    //
 //                                                                            //
 // ************************************************************************** //
 
@@ -25,7 +25,9 @@ static void init_options(const int argc, const char **argv, data_t *data)
 	{
 	  desc.add_options()
 		("help,h", "Help screen")
-		("raw,r", "Evalue raw HTML, overrides -c flag")
+		("recursive,r",
+		 boost::program_options::value<unsigned int>()->default_value(10),
+		 "Indicates depth of search in the childs of the chosen container.")
 		("file,f",
 		 boost::program_options::value<std::string>()->default_value("resources/keywords.xlsx"),
 		 "File containing Keywords (default resources/keywords.xlsx)")
@@ -60,12 +62,19 @@ static void init_options(const int argc, const char **argv, data_t *data)
 		  if (vm.count("limit_search"))
 			data->search_limit = vm["limit_search"].as<unsigned int>();
 		  if (vm.count("buffer"))
-			data->buff = vm["buffer"].as<size_t>();
+			{
+			  data->buff = vm["buffer"].as<size_t>();
+			  if (!data->buff)
+				{
+				  std::cerr << "Error: buffer can not be 0\n";
+				  exit(EXIT_FAILURE);
+				}
+			}
 		  if (vm.count("end_char"))
 			data->end_char = vm["end_char"].as<std::string>();
-		  if (vm.count("raw"))
-			data->flags |= 0x1;
-		  else if (vm.count("container"))
+		  if (vm.count("recursive"))
+			data->recursion = vm["recursive"].as<unsigned int>();
+		  if (vm.count("container"))
 			data->container = vm["container"].as<std::string>();
 		  data->output = "{";
 		}

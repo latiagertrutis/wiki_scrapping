@@ -6,7 +6,7 @@
 /*   By: Mateo <teorodrip@protonmail.com>                                     */
 /*                                                                            */
 /*   Created: 2018/11/20 10:23:16 by Mateo                                    */
-//   Updated: 2018/11/25 14:13:33 by Mateo                                    //
+//   Updated: 2018/11/26 00:52:36 by Mateo                                    //
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ typedef struct data_s
   std::string	output_path;
   std::ofstream output_file;
   unsigned int	search_limit;
-  unsigned int  flags;//0x1 for raw html
+  unsigned int  recursion;
   size_t        buff;
 } data_t;
 

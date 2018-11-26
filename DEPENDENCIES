@@ -28,3 +28,9 @@ then execute:
 sudo ldconfig
 
 ========================================================
+
+To use boost:
+
+sudo apt-get install libboost-all-dev
+
+========================================================

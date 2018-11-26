@@ -6,7 +6,7 @@
 #    By: Mateo <teorodrip@protonmail.com>                                      #
 #                                                                              #
 #    Created: 2018/11/19 16:54:49 by Mateo                                     #
-#    Updated: 2018/11/25 18:54:41 by Mateo                                     #
+#    Updated: 2018/11/26 00:33:57 by Mateo                                     #
 #                                                                              #
 #******************************************************************************#
 
@@ -23,7 +23,6 @@ CC = g++
 FUNCS = main2.cpp \
 		get_search.cpp \
 		get_page.cpp \
-		evaluate_raw.cpp \
 		evaluate_tree.cpp \
 		extract_sentence.cpp \
 		update_output.cpp \
